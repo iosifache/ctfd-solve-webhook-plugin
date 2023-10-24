@@ -1,0 +1,3 @@
+[submodule "ctfd_upstream"]
+	path = CTFd
+	url = https://github.com/CTFd/CTFd
