@@ -65,6 +65,8 @@ services:
     networks:
       default:
       internal:
+    profiles:
+      - mattermost
 
 networks:
   default:
