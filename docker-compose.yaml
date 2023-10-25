@@ -5,8 +5,16 @@ services:
     image: ctfd/ctfd
     user: root
     restart: always
+    networks:
+      default:
+      internal:
     ports:
       - "8001:8000"
+    volumes:
+      - .data/CTFd/logs:/var/log/CTFd
+      - .data/CTFd/uploads:/var/uploads
+      - ./CTFd:/opt/CTFd
+      - ./solve-webhook-plugin:/opt/CTFd/CTFd/plugins/solve-webhook-plugin
     environment:
       - SECRET_KEY=test_infra_dont_bother
       - UPLOAD_FOLDER=/var/uploads
@@ -19,38 +27,31 @@ services:
       - REVERSE_PROXY=true
       - SOLVE_WEBHOOK_URL=
       - SOLVE_WEBHOOK_LIMIT=3
-    volumes:
-      - .data/CTFd/logs:/var/log/CTFd
-      - .data/CTFd/uploads:/var/uploads
-      - ./CTFd:/opt/CTFd
-      - ./solve-webhook-plugin:/opt/CTFd/CTFd/plugins/solve-webhook-plugin
     depends_on:
       - db
-    networks:
-      default:
-      internal:
 
   db:
     image: mariadb:10.4.12
     restart: always
+    networks:
+      internal:
+    volumes:
+      - .data/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=ctfd
       - MYSQL_USER=ctfd
       - MYSQL_PASSWORD=ctfd
       - MYSQL_DATABASE=ctfd
-    volumes:
-      - .data/mysql:/var/lib/mysql
-    networks:
-        internal:
     command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
 
   cache:
     image: redis:4
     restart: always
-    volumes:
-    - .data/redis:/data
     networks:
         internal:
+    volumes:
+    - .data/redis:/data
+
   
   mattermost:
     build: bots/mattermost
@@ -60,11 +61,11 @@ services:
       - MATTERMOST_BOT_USERNAME=the-herald
       - MATTERMOST_BOT_ICON_EMOJI=trumpet
       - MATTERMOST_BOT_AUTH_TOKEN=token
-    ports:
-      - "8002:8080"
     networks:
       default:
       internal:
+    ports:
+      - "8002:8080"
     profiles:
       - mattermost
 
