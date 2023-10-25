@@ -7,11 +7,11 @@ from flask import request as flask_request
 
 app = Flask(__name__)
 
-app.config["URL"] = os.environ.get("MATTERMOST_BOT_URL", None)
-app.config["CHANNEL"] = os.environ.get("MATTERMOST_BOT_CHANNEL", None)
-app.config["USERNAME"] = os.environ.get("MATTERMOST_BOT_USERNAME", None)
-app.config["ICON_EMOJI"] = os.environ.get("MATTERMOST_BOT_ICON_EMOJI", None)
-app.config["AUTH_TOKEN"] = os.environ.get("MATTERMOST_BOT_AUTH_TOKEN", None)
+app.config["URL"] = os.environ.get("MATTERMOST_WEBHOOK_URL", None)
+app.config["CHANNEL"] = os.environ.get("MATTERMOST_WEBHOOK_CHANNEL", None)
+app.config["USERNAME"] = os.environ.get("MATTERMOST_WEBHOOK_USERNAME", None)
+app.config["ICON_EMOJI"] = os.environ.get("MATTERMOST_WEBHOOK_ICON_EMOJI", None)
+app.config["AUTH_TOKEN"] = os.environ.get("MATTERMOST_WEBHOOK_AUTH_TOKEN", None)
 
 if not (
     app.config["URL"]

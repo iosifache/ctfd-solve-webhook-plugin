@@ -29,6 +29,8 @@ services:
       - SOLVE_WEBHOOK_LIMIT=3
     depends_on:
       - db
+    profiles:
+      - ctfd
 
   db:
     image: mariadb:10.4.12
@@ -43,6 +45,8 @@ services:
       - MYSQL_PASSWORD=ctfd
       - MYSQL_DATABASE=ctfd
     command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
+    profiles:
+      - ctfd
 
   cache:
     image: redis:4
@@ -51,16 +55,17 @@ services:
         internal:
     volumes:
     - .data/redis:/data
-
+    profiles:
+      - ctfd
   
   mattermost:
     build: bots/mattermost
     environment:
-      - MATTERMOST_BOT_URL=https://mattermost.pwn2own.com/hooks/hook_id
-      - MATTERMOST_BOT_CHANNEL=announcements
-      - MATTERMOST_BOT_USERNAME=the-herald
-      - MATTERMOST_BOT_ICON_EMOJI=trumpet
-      - MATTERMOST_BOT_AUTH_TOKEN=token
+      - MATTERMOST_WEBHOOK_URL=https://mattermost.pwn2own.com/hooks/hook_id
+      - MATTERMOST_WEBHOOK_CHANNEL=announcements
+      - MATTERMOST_WEBHOOK_USERNAME=the-herald
+      - MATTERMOST_WEBHOOK_ICON_EMOJI=trumpet
+      - MATTERMOST_WEBHOOK_AUTH_TOKEN=token
     networks:
       default:
       internal:
