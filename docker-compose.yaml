@@ -17,11 +17,13 @@ services:
       - ACCESS_LOG=-
       - ERROR_LOG=-
       - REVERSE_PROXY=true
+      - SOLVE_WEBHOOK_URL=
+      - SOLVE_WEBHOOK_LIMIT=3
     volumes:
       - .data/CTFd/logs:/var/log/CTFd
       - .data/CTFd/uploads:/var/uploads
       - ./CTFd:/opt/CTFd
-      - ./webhook-plugin:/opt/CTFd/CTFd/plugins/webhook-plugin
+      - ./solve-webhook-plugin:/opt/CTFd/CTFd/plugins/solve-webhook-plugin
     depends_on:
       - db
     networks:
