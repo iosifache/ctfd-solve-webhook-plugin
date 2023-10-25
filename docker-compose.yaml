@@ -27,8 +27,8 @@ services:
     depends_on:
       - db
     networks:
-        default:
-        internal:
+      default:
+      internal:
 
   db:
     image: mariadb:10.4.12
@@ -51,8 +51,22 @@ services:
     - .data/redis:/data
     networks:
         internal:
+  
+  mattermost:
+    build: bots/mattermost
+    environment:
+      - MATTERMOST_BOT_URL=https://mattermost.pwn2own.com/hooks/hook_id
+      - MATTERMOST_BOT_CHANNEL=announcements
+      - MATTERMOST_BOT_USERNAME=the-herald
+      - MATTERMOST_BOT_ICON_EMOJI=trumpet
+      - MATTERMOST_BOT_AUTH_TOKEN=token
+    ports:
+      - "8002:8080"
+    networks:
+      default:
+      internal:
 
 networks:
-    default:
-    internal:
-        internal: true
+  default:
+  internal:
+      internal: true

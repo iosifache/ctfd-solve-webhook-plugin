@@ -173,7 +173,7 @@ def call_webhook(url: str, data: dict) -> None:
     json_data = json.dumps(data)
     json_data_bytes = json_data.encode("utf-8")
 
-    req = urllib.request.Request(url)
+    req = urllib.request.Request(url, method="POST")
     req.add_header("Content-Type", "application/json; charset=utf-8")
     req.add_header("Content-Length", len(json_data_bytes))
     urllib.request.urlopen(req, json_data_bytes)
