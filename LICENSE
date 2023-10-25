@@ -1,4 +1,4 @@
-ctfd-to-mattermost - Mattermost bot for announcing CTFd First Blood awards
+ctfd-solve-webhook-plugin - CTFd plugin for calling a webhook at each solve
 Copyright (C) 2023 George-Andrei Iosif
 
 This program is free software: you can redistribute it and/or modify
