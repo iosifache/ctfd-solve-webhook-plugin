@@ -1,0 +1,16 @@
+{
+    "editor.rulers": [
+        80
+    ],
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "isort.check": true,
+    "files.exclude": {
+        ".git": true,
+        ".data": true,
+        "**/__pycache__": true
+    },
+    "html.format.wrapLineLength": 79
+}
