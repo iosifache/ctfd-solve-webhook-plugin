@@ -7,19 +7,18 @@ from flask import request as flask_request
 
 app = Flask(__name__)
 
+app.config["IS_BOT"] = bool(os.environ.get("MATTERMOST_WEBHOOK_IS_BOT", "0"))
 app.config["URL"] = os.environ.get("MATTERMOST_WEBHOOK_URL", None)
+app.config["BOT_TOKEN"] = os.environ.get("MATTERMOST_WEKHOOK_BOT_TOKEN", None)
 app.config["CHANNEL"] = os.environ.get("MATTERMOST_WEBHOOK_CHANNEL", None)
 app.config["USERNAME"] = os.environ.get("MATTERMOST_WEBHOOK_USERNAME", None)
 app.config["ICON_EMOJI"] = os.environ.get("MATTERMOST_WEBHOOK_ICON_EMOJI", None)
 app.config["AUTH_TOKEN"] = os.environ.get("MATTERMOST_WEBHOOK_AUTH_TOKEN", None)
 
-if not (
-    app.config["URL"]
-    and app.config["CHANNEL"]
-    and app.config["USERNAME"]
-    and app.config["ICON_EMOJI"]
-    and app.config["AUTH_TOKEN"]
-):
+if not (app.config["CHANNEL"] and app.config["URL"]):
+    exit()
+
+if app.config["IS_BOT"] and not app.config["BOT_TOKEN"]:
     exit()
 
 
@@ -47,12 +46,18 @@ def create_message(data: dict) -> str:
 def create_mattermost_data(data: dict) -> dict:
     message = create_message(data)
 
-    return {
-        "channel": app.config["CHANNEL"],
-        "username": app.config["USERNAME"],
-        "icon_emoji": app.config["AUTH_TOKEN"],
-        "text": message,
-    }
+    if app.config["IS_BOT"]:
+        return {
+            "channel_id": app.config["CHANNEL"],
+            "message": message,
+        }
+    else:
+        return {
+            "channel": app.config["CHANNEL"],
+            "username": app.config["USERNAME"],
+            "icon_emoji": app.config["ICON_EMOJI"],
+            "text": message,
+        }
 
 
 def make_request(url: str, data: dict) -> None:
@@ -63,6 +68,8 @@ def make_request(url: str, data: dict) -> None:
     req = request.Request(url, method="POST")
     req.add_header("Content-Type", "application/json; charset=utf-8")
     req.add_header("Content-Length", len(json_data_bytes))
+    if app.config["IS_BOT"]:
+        req.add_header("Authorization", "Bearer " + app.config["BOT_TOKEN"])
     request.urlopen(req, json_data_bytes)
 
 

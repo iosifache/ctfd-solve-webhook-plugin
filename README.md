@@ -24,15 +24,17 @@ They can be changed either by setting up some environment variables or using the
 
 The configuration is composed of the following aspects:
 
-| Description                                                                                       | Environment variable            | Type                           | Scope              | Mandatory | UI editable |
-| ------------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------ | ------------------ | --------- | ----------- |
-| URL of the webhook                                                                                | `SOLVE_WEBHOOK_URL`             | String representing a URL      | CTFd plugin        | Yes       | Yes         |
-| Maximum number of players for which the webhook is called                                         | `SOLVE_WEBHOOK_LIMIT`           | String representing an integer | CTFd plugin        | No        | Yes         |
-| [Mattermost incoming webhook URL](https://developers.mattermost.com/integrate/webhooks/incoming/) | `MATTERMOST_WEBHOOK_URL`        | String representing a URL      | Mattermost webhook | Yes       | No          |
-| Mattermost channel in which the messages will be sent                                             | `MATTERMOST_WEBHOOK_CHANNEL`    | String                         | Mattermost webhook | Yes       | No          |
-| Mattermost username from which the messages will be sent                                          | `MATTERMOST_WEBHOOK_USERNAME`   | String                         | Mattermost webhook | Yes       | No          |
-| Icon accompanying each Mattermost message                                                         | `MATTERMOST_WEBHOOK_ICON_EMOJI` | String                         | Mattermost webhook | Yes       | No          |
-| Custom authentication token for the Mattermost webhook                                            | `MATTERMOST_WEBHOOK_AUTH_TOKEN` | String                         | Mattermost webhook | Yes       | No          |
+| Description                                                                                                                 | Environment variable            | Type                           | Scope              | Mandatory        | UI editable |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------ | ------------------ | ---------------- | ----------- |
+| URL of the webhook                                                                                                          | `SOLVE_WEBHOOK_URL`             | String representing a URL      | CTFd plugin        | Yes              | Yes         |
+| Maximum number of players for which the webhook is called                                                                   | `SOLVE_WEBHOOK_LIMIT`           | String representing an integer | CTFd plugin        | No               | Yes         |
+| Boolean indicating if the Mattermost sender is a user (with incoming webhooks) or a bot                                     | `MATTERMOST_WEBHOOK_IS_BOT`     | `0` (false) or `1` (true)      | Mattermost webhook | Yes              | No          |
+| [Mtttermost bot token](https://developers.mattermost.com/integrate/reference/bot-accounts/)                                 | `MATTERMOST_WEKHOOK_BOT_TOKEN`  | String                         | Mattermost webhook | If a bot is used | No          |
+| Mattermost API Posts URL (if bot) or [incoming webhook URL](https://developers.mattermost.com/integrate/webhooks/incoming/) | `MATTERMOST_WEBHOOK_URL`        | String representing a URL      | Mattermost webhook | Yes              | No          |
+| Mattermost channel ID in which the messages will be sent                                                                    | `MATTERMOST_WEBHOOK_CHANNEL`    | String                         | Mattermost webhook | Yes              | No          |
+| Mattermost username from which the messages will be sent                                                                    | `MATTERMOST_WEBHOOK_USERNAME`   | String                         | Mattermost webhook | No               | No          |
+| Icon accompanying each Mattermost message                                                                                   | `MATTERMOST_WEBHOOK_ICON_EMOJI` | String                         | Mattermost webhook | No               | No          |
+| Custom authentication token for the Mattermost webhook                                                                      | `MATTERMOST_WEBHOOK_AUTH_TOKEN` | String                         | Mattermost webhook | Yes              | No          |
 
 ## Setup
 

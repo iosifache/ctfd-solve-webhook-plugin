@@ -59,8 +59,10 @@ services:
       - ctfd
   
   mattermost:
+    image: mattermost_webhook
     build: webhooks/mattermost
     environment:
+      - MATTERMOST_WEBHOOK_IS_BOT=0
       - MATTERMOST_WEBHOOK_URL=https://mattermost.pwn2own.com/hooks/hook_id
       - MATTERMOST_WEBHOOK_CHANNEL=announcements
       - MATTERMOST_WEBHOOK_USERNAME=the-herald
