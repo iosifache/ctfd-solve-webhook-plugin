@@ -62,8 +62,14 @@ All approaches described below require the repository to be cloned locally.
 2. Change the value of each `ENV`. Use [the above table with configuration aspects](#available-aspects) to understand what values should be set.
 3. Use the `Dockerfile` and accompanying file from the folder in your usual process for setting up the infrastructure.
 
-## Webhook authentication
+## Custom webhooks
 
-At the moment, the single way to authenticate the plugin to a webhook is by leveraging the GET parameters.
+## HTTP contract
+
+The requests that the webhooks receive are defined in a Swagger file, [swagger.yaml](/webhooks/swagger.yaml). To visualize it, you can use [an online editor](https://editor.swagger.io/) or [Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=Arjun.swagger-viewer).
+
+## Authentication
+
+At the moment, the single way to authenticate the plugin to a webhook is by leveraging the `GET` parameters.
 
 For example, if you are creating a custom webhook (hosted at `<your_url>`), populate `SOLVE_WEBHOOK_URL` with `<your_url>/?token=<auth_token>` and implement a logic in the webhook to verify if the `token` parameter is set and has the value `<auth_token>`.

@@ -1,0 +1,75 @@
+swagger: "2.0"
+info:
+  description: "OpenAPI for webhooks in `ctfd-solve-webhook-plugin`"
+  version: "0.1"
+  title: "ctfd-solve-webhook-plugin Webhook"
+  contact:
+    email: "hi@iosifache.me"
+  license:
+    name: "GNU AGPL 3.0"
+    url: "https://github.com/iosifache/ctfd-solve-webhook-plugin/blob/main/LICENSE"
+host: "localhost"
+basePath: "/"
+schemes:
+  - "https"
+externalDocs:
+  description: "Documentation"
+  url: "https://github.com/iosifache/ctfd-solve-webhook-plugin/blob/main/README.md"
+parameters:
+  challengeParam:
+    name: "challenge"
+    in: "query"
+    description: "The solved challenge"
+    required: true
+    type: "string"
+  categoryParam:
+    name: "category"
+    in: "query"
+    description: "The category that contains solved challenge"
+    required: true
+    type: "string"
+  teamParam:
+    name: "team"
+    in: "query"
+    description: "The team that solved the challenge. This or the username should be defined."
+    type: "string"
+  userParam:
+    name: "user"
+    in: "query"
+    description: "The user that solved the challenge. This or the team name should be defined."
+    type: "string"
+  solveIdParam:
+    name: "solve_id"
+    in: "query"
+    description: "The position in the challenge leaderboard, by solve date"
+    required: true
+    type: "number"
+paths:
+  /:
+    get:
+      tags:
+        - "process"
+      summary: "Processes data sent by the CTFd plugin."
+      description: "Processes data sent by the CTFd plugin."
+      operationId: "process"
+      produces:
+        - "application/json"
+      parameters:
+        - $ref: "#/parameters/challengeParam"
+        - $ref: "#/parameters/categoryParam"
+        - $ref: "#/parameters/teamParam"
+        - $ref: "#/parameters/userParam"
+        - $ref: "#/parameters/solveIdParam"
+      responses:
+        "201":
+          description: "All search results"
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Result"
+        "403":
+          description: "The [custom authentication schema](https://github.com/iosifache/ctfd-solve-webhook-plugin#webhook-authentication) is not respected."
+definitions:
+  Result:
+    type: "object"
+    description: "A response of the webhook. The payload is ignored by the CTFd plugin."
